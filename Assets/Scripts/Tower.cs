@@ -10,11 +10,15 @@ public class Tower : MonoBehaviour
     public float timeRemaining = 1f;
     public float shootingSpeed = 1f;
 
+    private GameManager gameManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Get game manager.
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
     }
 
     // Update is called once per frame
@@ -36,7 +40,7 @@ public class Tower : MonoBehaviour
         else
         {
             Shoot();
-            timeRemaining = shootingSpeed; 
+            timeRemaining = (1 / shootingSpeed); 
         }
 
     }
@@ -47,4 +51,10 @@ public class Tower : MonoBehaviour
         clone = Instantiate(projectile, transform.position, transform.rotation);
         clone.velocity = transform.TransformDirection(Vector2.up * 20);
     }
+
+    void OnMouseDown(){
+        if(gameManager.SpendMoney(100)){
+            shootingSpeed *= 2;
+        }
+    }   
 }

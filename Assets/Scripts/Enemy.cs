@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    private GameManager gameManager;
     private Vector2 heading;
     private float speed = 1.0f; // Units per second.
     private Queue path = new Queue();
@@ -13,6 +15,9 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Get game manager.
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         // Create path.
         // TODO: Move to GameManager when ready.
         path.Enqueue(new Vector2(-5f, 2.5f));
@@ -156,6 +161,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            gameManager.AddMoney(20);
         }
     }
 }
