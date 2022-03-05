@@ -36,16 +36,17 @@ public class Enemy : MonoBehaviour
         path.Enqueue(new Vector2(7f, -3.5f));
     }
 
-    void enqueue90DegreeLeftDownPath(Vector2 start, Vector2 end, int definition)
+    // TODO: Condense following 4 functions into one.
+    void enqueue90DegreeLeftDownPath(Vector2 start, Vector2 end, int resolution)
     {   
         //Find difference between angles.
-        float angleStep = (90.0f / definition) * Mathf.Deg2Rad;
+        float angleStep = (90.0f / resolution) * Mathf.Deg2Rad;
         float radius = start.x - end.x;
         float center_x = start.x;
         float center_y = end.y;
 
-        // Add vectors until                                                                     
-        for (int i = 1; i <= definition; i++)
+        // Add straight lines to path to create curve specified by resolution.                                                             
+        for (int i = 1; i <= resolution; i++)
         {
             float y = radius * Mathf.Cos(angleStep * i);
             float x = radius * Mathf.Sin(angleStep * i);
@@ -114,13 +115,15 @@ public class Enemy : MonoBehaviour
     // FixedUpdate is called 60 times a second.
     void FixedUpdate()
     {
+        // Get the direction and distance to end of the current path.
         Vector2 relHeading = heading - (Vector2)transform.position;
         float distance = relHeading.magnitude;
-        var direction = relHeading / distance; // This is now the normalized direction.
+        var direction = relHeading / distance;
 
+        // Move enemy towards the end of the current path.
         if (distance > speed / 60)
         {
-            // TODO: Move by speed.
+            // Move by distance per frame, or in other words speed times 1/60th of a second.
             float moveDistance = speed / 60;
             transform.position = Vector2.MoveTowards(transform.position, heading, moveDistance);
         }
@@ -134,7 +137,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        // TODO: If position equals heading, set heading to next in path.
+        // If position equals heading, set heading to next in path.
         if (distance < speed / 60)
         {
             updateHeading();
@@ -147,6 +150,9 @@ public class Enemy : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Set the current path to the end of the next path.
+    /// </summary>
     void updateHeading()
     {
         if(path.Count > 0)
@@ -155,6 +161,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Apply damage to enemy.
+    /// </summary>
     public void takeDamage(int damage)
     {
         health -= damage;

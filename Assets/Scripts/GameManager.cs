@@ -22,19 +22,24 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Shoot Projectile.
+        // Spawn an enemy whenever timer reaches zero.
         if (timeRemaining > 0)
         {
+            // Decrease timer.
             timeRemaining -= Time.deltaTime;
         }
         else
         {
+            // Spawm enemy and reset timer.
             Spawn();
             timeRemaining = (1 / spawnSpeed); 
         }
 
     }
 
+    /// <summary>
+    /// Spawn a new enwmy.
+    /// </summary>
     void Spawn()
     {
         Rigidbody2D clone;
@@ -66,6 +71,9 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Updates the money display with current money amount. Call whenever changed.
+    /// </summary>
     void updateMoneyDisplay()
     {
         moneyDisplay.text = "Money: " + money;

@@ -20,6 +20,7 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        // If the object collided with is an enemy, deal damage.
         if(col.gameObject.tag == "Enemy")
         {
             Debug.Log("Hit enemy");

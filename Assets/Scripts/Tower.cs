@@ -27,12 +27,14 @@ public class Tower : MonoBehaviour
         // TODO: Get nearest enemy.
 
         // TODO: Change mouse pos to enemy position.
+
+        // Get direction towards mouse and point tower towards it.
         Vector3 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 direction = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
         transform.up = direction;
 
-        // Shoot Projectile.
+        // Shoot projectile based on shooting speed.
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
@@ -45,6 +47,9 @@ public class Tower : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Shoot a projectile in the direction the tower is pointing.
+    /// </summary>
     void Shoot()
     {
         Rigidbody2D clone;
@@ -53,6 +58,7 @@ public class Tower : MonoBehaviour
     }
 
     void OnMouseDown(){
+        // Attemp an upgrade if the user clicks on this object.
         if(gameManager.SpendMoney(100)){
             shootingSpeed *= 2;
         }
