@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
     {
         Rigidbody2D clone;
         clone = Instantiate(enemy);
-        clone.velocity = transform.TransformDirection(Vector2.up * 20);
     }
 
     /// <summary>
